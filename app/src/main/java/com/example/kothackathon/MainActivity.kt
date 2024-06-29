@@ -30,7 +30,6 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
 
         switch_location = findViewById(R.id.switch_location)
-        text = findViewById(R.id.text_box)
         title = "SkinB"
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
