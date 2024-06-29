@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">SkinB</string>
     <string name="next">Next</string>
+    <string name="location_toggle">Location</string>
+    <string name="introduction">Enable permissions for personalized experience</string>
 </resources>

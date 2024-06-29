@@ -39,12 +39,12 @@ class MainActivity : Activity() {
         title = "SkinB"
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-
+        // when location permission is enabled, we can get lat and long of position and use that info
+        // to get uvIndex, temperature, humidity
         switch_location.setOnClickListener {
             val isChecked = switch_location.isChecked
 
             if(isChecked) {
-                var location_here : Location = Location("dummyprovider");
 
                 fusedLocationClient.lastLocation.addOnSuccessListener(this) { location: Location? ->
                     // Got last known location. In some rare
@@ -54,8 +54,6 @@ class MainActivity : Activity() {
                         //println("Location is null")
                     } else location.apply {
                         // Handle location object
-                        //println(location.latitude)
-                        location_here = location
 
                         // Instantiate the RequestQueue.
                         val queue = Volley.newRequestQueue(this@MainActivity)
@@ -76,7 +74,7 @@ class MainActivity : Activity() {
                                 println(uvIndexNow)
 
                                 Toast.makeText(this@MainActivity,
-                                    "" + humidityNow + " - " + temperatureNow + " - " + uvIndexNow,
+                                    "Location enabled",
                                     Toast.LENGTH_LONG
                                 ).show()
 
@@ -85,8 +83,6 @@ class MainActivity : Activity() {
 
                         // Add the request to the RequestQueue.
                         queue.add(stringRequest)
-
-
 
                     }
                 }
