@@ -10,8 +10,14 @@ import android.util.Log
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import org.json.JSONObject
+import java.net.URL
 
 class MainActivity : Activity() {
 
@@ -45,15 +51,43 @@ class MainActivity : Activity() {
                     // situations this can be null.
                     if (location == null) {
                         // TODO, handle it
-                        println("Location is null")
+                        //println("Location is null")
                     } else location.apply {
                         // Handle location object
-                        println(location.latitude)
+                        //println(location.latitude)
                         location_here = location
-                        Toast.makeText(this@MainActivity,
-                            "Checked!" + location_here.latitude + " " + location_here.longitude,
-                            Toast.LENGTH_LONG
-                        ).show()
+
+                        // Instantiate the RequestQueue.
+                        val queue = Volley.newRequestQueue(this@MainActivity)
+                        val url = "https://www.uvindex.app/api/getUvTimeline?lat=49.4737694&lng=8.4599115"
+
+                        // Request a string response from the provided URL.
+                        val stringRequest = StringRequest(
+                            Request.Method.GET, url,
+                            Response.Listener<String> { response ->
+                                // Display the first 500 characters of the response string.
+                                //textView.text = "Response is: ${response.substring(0, 500)}"
+                                var text = "Response is: ${response.substring(0, 500)}"
+                                println(text)
+                                val answer = JSONObject(response)
+                                var uvIndexNow = answer.get("uvIndexNow")
+                                var humidityNow = answer.get("humidityNow")
+                                var temperatureNow = answer.get("temperatureNow")
+                                println(uvIndexNow)
+
+                                Toast.makeText(this@MainActivity,
+                                    "" + humidityNow + " - " + temperatureNow + " - " + uvIndexNow,
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                            },
+                            Response.ErrorListener { println("That didn't work!") })
+
+                        // Add the request to the RequestQueue.
+                        queue.add(stringRequest)
+
+
+
                     }
                 }
 
