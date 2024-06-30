@@ -87,9 +87,8 @@ class MainActivity : Activity() {
                     }
                 }
 
-
             }else{
-                Toast.makeText(this, "Not checked",
+                Toast.makeText(this, "Location disabled",
                     Toast.LENGTH_LONG).show()
             }
         }
